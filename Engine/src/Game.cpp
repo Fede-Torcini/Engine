@@ -1,6 +1,8 @@
 #include "Game.h"
 #include "Constants.h"
-#include "states/GameState.h"
+
+#include "GameState.h"
+#include "MainMenuState.h"
 
 namespace engine
 {
@@ -79,6 +81,6 @@ namespace engine
 	}
 	void Game::initStates()
 	{
-		m_states.push(std::make_unique<pacman::GameState> (m_window.get()));
+		m_states.push(std::make_unique<pacman::MainMenuState> (m_window.get()));
 	}
 }

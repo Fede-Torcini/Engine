@@ -31,6 +31,7 @@ namespace pacman
 	}
 	void GameState::update(float const& deltaTime)
 	{
+		this->updateMousePosition();
 		this->updateKeybinds(deltaTime);
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
