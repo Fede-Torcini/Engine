@@ -9,12 +9,9 @@ namespace engine
 	State::~State()
 	{
 	}
-	void State::checkForQuit()
+	std::unique_ptr<State> State::getNewState()
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		{
-			m_quit = true;
-		}
+		return nullptr;
 	}
 	void State::updateMousePosition()
 	{
@@ -23,7 +20,7 @@ namespace engine
 		mousePositionView = m_window->mapPixelToCoords(sf::Mouse::getPosition(*m_window));
 
 	}
-	bool const& State::getQuit()
+	bool State::getQuit()
 	{
 		return m_quit;
 	}

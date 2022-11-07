@@ -13,16 +13,17 @@ class State
 public:
 	State(sf::RenderWindow* window);
 	virtual ~State();
+	State(State const&) = default;
 
-	bool const& getQuit();
-
-	virtual void checkForQuit() = 0;
+	bool getQuit();
 
 	virtual void endState() = 0;
 
+	virtual std::unique_ptr<State> getNewState();
 	virtual void updateMousePosition();
 	virtual void updateKeybinds(float const& deltaTime) = 0;
 	virtual void update(float const& deltaTime) = 0;
+	virtual void updateEvents() = 0;
 	virtual void render(sf::RenderTarget* target = nullptr) = 0;
 
 protected:

@@ -26,24 +26,22 @@ namespace engine
 		m_deltaTime = m_clock.restart().asMilliseconds();
 	}
 
-	void Game::updateEvents()
-	{
-		while (m_window->pollEvent(m_event))
-		{
-			if (this->m_event.type == sf::Event::Closed)
-			{
-				m_window->close();
-			}
-		}
-	}
 	void Game::update()
 	{
-		this->updateEvents();
-
 		if (!m_states.empty())
 		{
+			//Update top state
 			m_states.top()->update(m_deltaTime);
+			m_states.top()->updateEvents();
 
+			//Check if state wants to push a new state
+			std::unique_ptr<State> newState (m_states.top()->getNewState());
+			if (newState != nullptr)
+			{
+				m_states.push(std::move(newState));
+			}
+
+			//Check if state wants to quit
 			if (m_states.top()->getQuit())
 			{
 				m_states.top()->endState();
@@ -51,6 +49,7 @@ namespace engine
 			}
 		}
 
+		//if there are no states to render close the window
 		else
 		{
 			m_window->close();

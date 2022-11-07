@@ -10,34 +10,36 @@ namespace pacman
 	GameState::~GameState()
 	{
 	}
-	bool const& GameState::getQuit()
-	{
-		return false;
-	}
-	void GameState::checkForQuit()
-	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		{
-			m_quit = true;
-		}
-	}
+
 	void GameState::endState()
 	{
 		std::cout << "GameState Ending\n";
 	}
 	void GameState::updateKeybinds(float const& deltaTime)
 	{
-		this->checkForQuit();
+	}
+	void GameState::updateEvents()
+	{
+		sf::Event myEvent;
+		while (m_window->pollEvent(myEvent))
+		{
+			if (myEvent.type == sf::Event::Closed)
+			{
+				m_window->close();
+			}
+			if (myEvent.type == sf::Event::KeyReleased)
+			{
+				if (myEvent.key.code == sf::Keyboard::Escape)
+				{
+					m_quit = true;
+				}
+			}
+		}
 	}
 	void GameState::update(float const& deltaTime)
 	{
 		this->updateMousePosition();
 		this->updateKeybinds(deltaTime);
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		{
-			std::cout << "HI\n";
-		}
 	}
 	void GameState::render(sf::RenderTarget* target)
 	{

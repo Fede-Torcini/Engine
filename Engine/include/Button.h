@@ -12,11 +12,14 @@ public:
 	Button(sf::Vector2f position, sf::Vector2f size, std::string text, sf::Color idleColor, sf::Color hoverColor, sf::Color pressedColor);
 	~Button();
 
+	bool getButtonPressed();
 	void update(sf::Vector2f const mousePos);
 	void render(sf::RenderTarget* target);
 private:
 
 	ButtonState m_state;
+
+	bool m_buttonDown;
 
 	sf::RectangleShape m_shape;
 	sf::Text m_text;

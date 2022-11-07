@@ -42,6 +42,7 @@ namespace engine
         frames = 60;
         m_isPressed = true;
     }
+
     bool ButtonState::isPressed()
     {
         return m_isPressed;

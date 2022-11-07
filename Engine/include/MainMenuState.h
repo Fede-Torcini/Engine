@@ -10,18 +10,19 @@ namespace pacman
 		MainMenuState(sf::RenderWindow* window);
 		virtual ~MainMenuState();
 
-		bool const& getQuit();
-
-		virtual void checkForQuit();
-
 		virtual void endState();
 
+		void initButtons();
 		virtual void updateKeybinds(float const& deltaTime);
+		virtual void updateEvents();
 		virtual void update(float const& deltaTime);
 		virtual void render(sf::RenderTarget* target = nullptr);
+		std::unique_ptr<engine::State> getNewState();
 
 	private:
-		engine::Button button;
+		engine::Button m_startGameButton;
+		engine::Button m_closeButton;
+		bool m_startGame;
 	};
 }
 

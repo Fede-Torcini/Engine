@@ -14,7 +14,6 @@ public:
 	Game();
 	virtual ~Game();
 
-	void updateEvents();
 	void update();
 	void render();
 	void run();
