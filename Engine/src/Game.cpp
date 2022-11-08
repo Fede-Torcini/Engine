@@ -6,13 +6,17 @@
 
 namespace engine
 {
+	//Constructors
 	Game::Game()
-		:m_window (std::make_unique<sf::RenderWindow> (sf::VideoMode(constants::WINDOW_SIZE_X, constants::WINDOW_SIZE_Y), constants::TITLE))
+		:m_window (nullptr),
+		m_deltaTime(0.f),
+		m_vidModes(sf::VideoMode::getFullscreenModes())
 	{
 		this->initWindow();
 		this->initStates();
 	}
 
+	//Destructors
 	Game::~Game()
 	{
 		while (!m_states.empty())
@@ -21,9 +25,11 @@ namespace engine
 		}
 	}
 
+
+	//Updates
 	void Game::updateTime()
 	{
-		m_deltaTime = m_clock.restart().asMilliseconds();
+		m_deltaTime = static_cast<float>(m_clock.restart().asMilliseconds());
 	}
 
 	void Game::update()
@@ -68,15 +74,39 @@ namespace engine
 	}
 	void Game::run()
 	{
-		while (m_window->isOpen())
+		while (m_window != nullptr && m_window->isOpen())
 		{
 			this->updateTime();
 			this->update();
 			this->render();
 		}
 	}
+
+	//Initializers
 	void Game::initWindow()
 	{
+		bool fullscreen = constants::FULLSCREEN;
+		unsigned frameLimit = constants::FRAME_LIMIT;
+		bool verticalSyncEnabled = constants::VSYNC;
+		unsigned antialiasingLvl = constants::ANTIALIASING;
+
+		sf::ContextSettings windowSettings;
+		windowSettings.antialiasingLevel = antialiasingLvl;
+
+		if (fullscreen)
+		{
+			m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode::getDesktopMode(), constants::TITLE, sf::Style::Fullscreen, windowSettings);
+		}
+		else
+		{
+			m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode::getDesktopMode(), constants::TITLE, sf::Style::Titlebar | sf::Style::Close, windowSettings);
+		}
+		
+		if(m_window != nullptr)
+		{
+			m_window->setFramerateLimit(frameLimit);
+			m_window->setVerticalSyncEnabled(verticalSyncEnabled);
+		}
 	}
 	void Game::initStates()
 	{

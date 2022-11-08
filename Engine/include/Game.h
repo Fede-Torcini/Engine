@@ -30,6 +30,7 @@ private:
 	float m_deltaTime;
 	sf::Clock m_clock;
 	
+	std::vector<sf::VideoMode> m_vidModes;
 	std::unique_ptr<sf::RenderWindow> m_window;
 	sf::Event m_event;
 };
