@@ -12,7 +12,7 @@ public:
     virtual void draw(sf::RenderTarget* target);
 
 protected:
-    Transform const& m_transform;
-    Component(Transform const& transform);
+    Transform& m_transform;
+    Component(Transform& transform);
 };
 }

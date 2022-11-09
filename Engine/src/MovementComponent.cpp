@@ -2,19 +2,39 @@
 
 namespace engine
 {
-    MovementComponent::MovementComponent(Transform const& transform, float speed) : Component (transform)
+    MovementComponent::MovementComponent(Transform& transform, float speed) : Component (transform)
     {
         m_speed = speed;
     }
     MovementComponent::~MovementComponent()
     {
     }
+    void MovementComponent::checkInput()
+    {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+        {
+            m_velocity = sf::Vector2f(0, -1);
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        {
+            m_velocity = sf::Vector2f(0, 1);
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        {
+            m_velocity = sf::Vector2f(-1, 0);
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        {
+            m_velocity = sf::Vector2f(1, 0);
+        }
+    }
     void MovementComponent::update(float deltaTime)
     {
+        this->checkInput();
+        this->move();
     }
-    void MovementComponent::move(float const dir_x, float const dir_y)
+    void MovementComponent::move()
     {
-        m_velocity.x = m_speed * dir_x;
-        m_velocity.y = m_speed * dir_y;
+        m_transform.setPosition(m_transform.getPosition() + (m_velocity * m_speed));
     }
 }

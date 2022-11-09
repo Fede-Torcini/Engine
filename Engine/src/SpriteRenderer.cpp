@@ -2,7 +2,7 @@
 
 namespace engine
 {
-    SpriteRenderer::SpriteRenderer(Transform const& transform, std::string const& textDir, sf::RenderTarget* window = nullptr) : Component (transform)
+    SpriteRenderer::SpriteRenderer(Transform& transform, std::string const& textDir, sf::RenderTarget* window = nullptr) : Component (transform)
     {
         m_target = window;
 
@@ -11,6 +11,7 @@ namespace engine
 
         m_sprite = std::make_unique<sf::Sprite>();
         m_sprite->setTexture(*m_texture);
+        m_sprite->setScale(sf::Vector2f(10, 10));
     }
 
     SpriteRenderer::~SpriteRenderer()
@@ -20,14 +21,12 @@ namespace engine
 
     void SpriteRenderer::update(float deltaTime)
     {
-        if (m_target != nullptr)
-        {
-            m_target->draw(*m_sprite);
-        }
+        m_sprite->setPosition(m_transform.getPosition());
     }
 
     void SpriteRenderer::draw(sf::RenderTarget* target)
     {
-        m_target->draw(*m_sprite);
+          target != nullptr ? target->draw(*m_sprite) : m_target->draw (*m_sprite);
+            
     }
 }

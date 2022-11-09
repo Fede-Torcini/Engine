@@ -2,7 +2,7 @@
 
 namespace engine
 {
-    Component::Component(Transform const& transform)
+    Component::Component(Transform& transform)
      : m_transform(transform)
     {
     }

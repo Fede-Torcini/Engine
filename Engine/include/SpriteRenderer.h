@@ -9,7 +9,7 @@ class SpriteRenderer : public Component
 {
 public:
    
-    SpriteRenderer(Transform const& transform, std::string const& textDir, sf::RenderTarget* window);
+    SpriteRenderer(Transform& transform, std::string const& textDir, sf::RenderTarget* window);
     virtual ~SpriteRenderer();
 
     virtual void draw(sf::RenderTarget* target);
