@@ -2,24 +2,43 @@
 
 namespace engine
 {
-	Entity::Entity()
-		: m_speed(0), m_sprite(nullptr), m_texture(nullptr)
-	{
-	}
 	//Posible crash, debug later
-	Entity::Entity(sf::Texture* texture)
-		: m_speed(0), m_sprite(nullptr), m_texture(texture)
+	Entity::Entity()
 	{
 	}
+
 	Entity::~Entity()
 	{
 	}
-	void Entity::createSprite()
+
+	void Entity::update(float const& deltaTime) 
 	{
-		if (m_texture != nullptr)
+		for (unsigned int i = 0; i < m_components.size(); i++)
 		{
-			m_sprite = std::make_unique<sf::Sprite>();
-			m_sprite->setTexture(*m_texture);
+			if (m_components[i] != nullptr)
+			{
+				m_components[i]->update(deltaTime);
+			}
 		}
 	}
+
+	void Entity::draw(sf::RenderTarget* target)
+	{
+		for (unsigned int i = 0; i < m_components.size(); i++)
+		{
+			if (m_components[i] != nullptr)
+			{
+				m_components[i]->draw(target);
+			}
+		}
+	}
+
+	void Entity::addComponent(Component* component)
+	{
+		if (component != nullptr)
+		{
+			m_components.push_back(std::unique_ptr<Component>(component));
+		}
+	}
+
 }

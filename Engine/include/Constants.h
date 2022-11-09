@@ -12,5 +12,7 @@ namespace constants
 	const bool FULLSCREEN = false;
 	const bool VSYNC = false;
 	const unsigned int ANTIALIASING = false;
+
+	const std::string PLAYER_TEXTURE_DIR = "src/resources/player_texture.png";
 }
 }

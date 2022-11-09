@@ -1,6 +1,7 @@
 #pragma once
 
 #include "State.h"
+#include "Player.h"
 
 namespace pacman
 {
@@ -16,5 +17,7 @@ public:
 	virtual void update(float const& deltaTime);
 	virtual void updateEvents();
 	virtual void render(sf::RenderTarget* target = nullptr);
+private:
+	Player m_player;
 };
 }
