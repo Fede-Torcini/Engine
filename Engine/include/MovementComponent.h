@@ -15,13 +15,15 @@ public:
 
 private:
 
-    void checkInput();
+    void updateVelocity(sf::Vector2f const& inputForce);
     void move();
     
     float m_speed;
-    sf::Vector2f m_velocity;
+    float m_mass;
     sf::Vector2f m_aceleration;
-
+    sf::Vector2f m_deceleration;
+    sf::Vector2f m_targetVelocity;
+    sf::Vector2f m_velocity;
 };
 }
 

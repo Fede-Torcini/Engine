@@ -1,36 +1,83 @@
 #include "MovementComponent.h"
+#include <iostream>
 
 namespace engine
 {
-    MovementComponent::MovementComponent(Transform& transform, float speed) : Component (transform)
+    MovementComponent::MovementComponent(Transform& transform, float speed) : Component(transform)
     {
         m_speed = speed;
+        m_mass = 80;
+        m_aceleration = { 0,0 };
+        m_deceleration = { .1, .1 };
     }
+
     MovementComponent::~MovementComponent()
     {
     }
-    void MovementComponent::checkInput()
+
+    sf::Vector2f checkInput()
     {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
         {
-            m_velocity = sf::Vector2f(0, -1);
+            return sf::Vector2f(0, -100);
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
         {
-            m_velocity = sf::Vector2f(0, 1);
+            return sf::Vector2f(0, 100);
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
         {
-            m_velocity = sf::Vector2f(-1, 0);
+            return sf::Vector2f(-100, 0);
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
         {
-            m_velocity = sf::Vector2f(1, 0);
+            return sf::Vector2f(100, 0);
+        }
+        return sf::Vector2f(0, 0);
+    }
+
+    void MovementComponent::updateVelocity(sf::Vector2f const& inputForce)
+    {  
+        float c = 1000;
+        if (m_velocity.x < 0)
+        {
+            m_aceleration.x = (inputForce.x  + m_velocity.x * m_velocity.x * c / m_mass) / m_mass;
+        }
+        else if (m_velocity.x > 0)
+        {
+            m_aceleration.x = (inputForce.x - m_velocity.x * m_velocity.x * c / m_mass) / m_mass;
+        }
+        else
+        {
+            m_aceleration.x = inputForce.x / m_mass;
+        }
+        if (m_velocity.y < 0)
+        {
+            m_aceleration.y = (inputForce.y + m_velocity.y * m_velocity.y * c / m_mass) / m_mass;
+        }
+        else if (m_velocity.y > 0)
+        {
+            m_aceleration.y = (inputForce.y - m_velocity.y * m_velocity.y * c / m_mass) / m_mass;
+        }
+        else
+        {
+            m_aceleration.y = inputForce.y / m_mass;
+        }
+
+        m_velocity += m_aceleration / 2.0f;
+        if (m_velocity.x < .2f && m_velocity.x > -.2f)
+        {
+            m_velocity.x = 0;
+        }
+        if (m_velocity.y < .2f && m_velocity.y > -.2f)
+        {
+            m_velocity.y = 0;
         }
     }
+
     void MovementComponent::update(float deltaTime)
     {
-        this->checkInput();
+        this->updateVelocity(checkInput());
         this->move();
     }
     void MovementComponent::move()
