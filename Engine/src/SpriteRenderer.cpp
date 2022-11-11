@@ -1,8 +1,11 @@
 #include "SpriteRenderer.h"
+#include "Constants.h"
+
 
 namespace engine
 {
-    SpriteRenderer::SpriteRenderer(Transform& transform, std::string const& textDir, sf::RenderTarget* window = nullptr) : Component (transform)
+    SpriteRenderer::SpriteRenderer(Transform& transform, std::string const& textDir, sf::RenderTarget* window = nullptr) 
+        : Component (transform, constants::componentNames::SPRITE_RENDERER)
     {
         m_target = window;
 

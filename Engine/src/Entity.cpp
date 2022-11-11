@@ -13,22 +13,22 @@ namespace engine
 
 	void Entity::update(float const& deltaTime) 
 	{
-		for (unsigned int i = 0; i < m_components.size(); i++)
+		for (auto const& component : m_components)
 		{
-			if (m_components[i] != nullptr)
+			if (component.second != nullptr)
 			{
-				m_components[i]->update(deltaTime);
+				component.second->update(deltaTime);
 			}
 		}
 	}
 
 	void Entity::draw(sf::RenderTarget* target)
 	{
-		for (unsigned int i = 0; i < m_components.size(); i++)
+		for (auto const& component : m_components)
 		{
-			if (m_components[i] != nullptr)
+			if  (component.second != nullptr)
 			{
-				m_components[i]->draw(target);
+				component.second->draw(target);
 			}
 		}
 	}
@@ -37,7 +37,7 @@ namespace engine
 	{
 		if (component != nullptr)
 		{
-			m_components.push_back(std::unique_ptr<Component>(component));
+			m_components.insert({ component->getName(), std::unique_ptr<Component>(component) });
 		}
 	}
 

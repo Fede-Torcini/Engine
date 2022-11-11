@@ -21,8 +21,6 @@ private:
     float m_speed;
     float m_mass;
     sf::Vector2f m_aceleration;
-    sf::Vector2f m_deceleration;
-    sf::Vector2f m_targetVelocity;
     sf::Vector2f m_velocity;
 };
 }
